@@ -2,21 +2,21 @@
 
 namespace App\Repository;
 
-use App\Entity\Reunion;
+use App\Entity\Client;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 /**
- * @method Reunion|null find($id, $lockMode = null, $lockVersion = null)
- * @method Reunion|null findOneBy(array $criteria, array $orderBy = null)
- * @method Reunion[]    findAll()
- * @method Reunion[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
+ * @method Client|null find($id, $lockMode = null, $lockVersion = null)
+ * @method Client|null findOneBy(array $criteria, array $orderBy = null)
+ * @method Client[]    findAll()
+ * @method Client[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class ReunionRepository extends ServiceEntityRepository
+class ClientRepository extends ServiceEntityRepository
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Reunion::class);
+        parent::__construct($registry, Client::class);
     }
 
     // /**

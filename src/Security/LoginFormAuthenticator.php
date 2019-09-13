@@ -106,7 +106,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return new RedirectResponse($targetPath);
         }
 
-        $url = $this->urlGenerator->generate('reunion_index');
+        $url = $this->urlGenerator->generate('client_index');
         return new RedirectResponse($url);
     }
 

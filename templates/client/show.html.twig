@@ -1,62 +1,62 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Reunion{% endblock %}
+{% block title %}Client{% endblock %}
 
 {% block body %}
-    <h1>Reunion</h1>
+    <h1>Client</h1>
 
     <table class="table">
         <tbody>
             <tr>
                 <th>Id</th>
-                <td>{{ reunion.id }}</td>
+                <td>{{ client.id }}</td>
             </tr>
             <tr>
                 <th>Prenom</th>
-                <td>{{ reunion.prenom }}</td>
+                <td>{{ client.prenom }}</td>
             </tr>
             <tr>
                 <th>Nom</th>
-                <td>{{ reunion.nom }}</td>
+                <td>{{ client.nom }}</td>
             </tr>
             <tr>
                 <th>Sexe</th>
-                <td>{{ reunion.sexe }}</td>
+                <td>{{ client.sexe }}</td>
             </tr>
             <tr>
                 <th>Adresse</th>
-                <td>{{ reunion.adresse }}</td>
+                <td>{{ client.adresse }}</td>
             </tr>
             <tr>
                 <th>CodePostale</th>
-                <td>{{ reunion.codePostale }}</td>
+                <td>{{ client.codePostale }}</td>
             </tr>
             <tr>
                 <th>Ville</th>
-                <td>{{ reunion.ville }}</td>
+                <td>{{ client.ville }}</td>
             </tr>
             <tr>
                 <th>Fixe</th>
-                <td>{{ reunion.fixe }}</td>
+                <td>{{ client.fixe }}</td>
             </tr>
             <tr>
                 <th>Portable</th>
-                <td>{{ reunion.portable }}</td>
+                <td>{{ client.portable }}</td>
             </tr>
             <tr>
                 <th>Email</th>
-                <td>{{ reunion.email }}</td>
+                <td>{{ client.email }}</td>
             </tr>
             <tr>
                 <th>Anniversaire</th>
-                <td>{{ reunion.anniversaire ? reunion.anniversaire|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ client.anniversaire ? client.anniversaire|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('reunion_index') }}">back to list</a>
+    <a href="{{ path('client_index') }}">back to list</a>
 
-    <a href="{{ path('reunion_edit', {'id': reunion.id}) }}">edit</a>
+    <a href="{{ path('client_edit', {'id': client.id}) }}">edit</a>
 
-    {{ include('reunion/_delete_form.html.twig') }}
+    {{ include('client/_delete_form.html.twig') }}
 {% endblock %}
