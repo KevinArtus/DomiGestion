@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -47,6 +49,19 @@ class Client
     private $ville;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(name="latitude", type="float", nullable=true)
+     */
+    public $latitude;
+    /**
+     * @var float
+     *
+     * @ORM\Column(name="longitude", type="float", nullable=true)
+     */
+    public $longitude;
+
+    /**
      * @ORM\Column(type="string", length=255)
      */
     private $fixe;
@@ -65,6 +80,43 @@ class Client
      * @ORM\Column(type="datetime")
      */
     private $anniversaire;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $commentaire;
+
+    /**
+     * @ORM\Column(type="json", nullable=true)
+     */
+    protected $preference;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true, options={"default":0})
+     */
+    protected $pointCadeaux;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="hote")
+     */
+    private $reunions;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clients")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $user;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="client")
+     */
+    private $commandes;
+
+    public function __construct()
+    {
+        $this->reunions = new ArrayCollection();
+        $this->commandes = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -189,5 +241,163 @@ class Client
         $this->anniversaire = $anniversaire;
 
         return $this;
+    }
+
+    /**
+     * @return Collection|Reunion[]
+     */
+    public function getReunions(): Collection
+    {
+        return $this->reunions;
+    }
+
+    public function addReunion(Reunion $reunion): self
+    {
+        if (!$this->reunions->contains($reunion)) {
+            $this->reunions[] = $reunion;
+            $reunion->setHote($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReunion(Reunion $reunion): self
+    {
+        if ($this->reunions->contains($reunion)) {
+            $this->reunions->removeElement($reunion);
+            // set the owning side to null (unless already changed)
+            if ($reunion->getHote() === $this) {
+                $reunion->setHote(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Commande[]
+     */
+    public function getCommandes(): Collection
+    {
+        return $this->commandes;
+    }
+
+    public function addCommande(Commande $commande): self
+    {
+        if (!$this->commandes->contains($commande)) {
+            $this->commandes[] = $commande;
+            $commande->setClient($this);
+        }
+
+        return $this;
+    }
+
+    public function removeCommande(Commande $commande): self
+    {
+        if ($this->commandes->contains($commande)) {
+            $this->commandes->removeElement($commande);
+            // set the owning side to null (unless already changed)
+            if ($commande->getClient() === $this) {
+                $commande->setClient(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLatitude(): float
+    {
+        return $this->latitude;
+    }
+
+    /**
+     * @param float $latitude
+     */
+    public function setLatitude(float $latitude): void
+    {
+        $this->latitude = $latitude;
+    }
+
+    /**
+     * @return float
+     */
+    public function getLongitude(): float
+    {
+        return $this->longitude;
+    }
+
+    /**
+     * @param float $longitude
+     */
+    public function setLongitude(float $longitude): void
+    {
+        $this->longitude = $longitude;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
+    }
+
+    /**
+     * @param mixed $commentaire
+     */
+    public function setCommentaire($commentaire): void
+    {
+        $this->commentaire = $commentaire;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPreference()
+    {
+        return $this->preference;
+    }
+
+    /**
+     * @param mixed $preference
+     */
+    public function setPreference($preference): void
+    {
+        $this->preference = $preference;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getPointCadeaux()
+    {
+        return $this->pointCadeaux;
+    }
+
+    /**
+     * @param mixed $pointCadeaux
+     */
+    public function setPointCadeaux($pointCadeaux): void
+    {
+        $this->pointCadeaux = $pointCadeaux;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getUser()
+    {
+        return $this->user;
+    }
+
+    /**
+     * @param mixed $user
+     */
+    public function setUser($user): void
+    {
+        $this->user = $user;
     }
 }

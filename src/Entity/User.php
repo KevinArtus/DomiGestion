@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -58,6 +60,26 @@ class User implements AdvancedUserInterface
      * @ORM\Column(name="active", type="boolean")
      */
     private $active;
+
+    /**
+     * @ORM\Column(name="is_hote", type="boolean")
+     */
+    private $isHote;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="user")
+     */
+    private $reunions;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Client", mappedBy="user")
+     */
+    private $clients;
+
+    public function __construct()
+    {
+        $this->reunions = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -251,5 +273,84 @@ class User implements AdvancedUserInterface
             $this->active,
             $this->roles
             ) = unserialize($serialized);
+    }
+
+    /**
+     * @return Collection|Reunion[]
+     */
+    public function getReunions(): Collection
+    {
+        return $this->reunions;
+    }
+
+    public function addReunion(Reunion $reunion): self
+    {
+        if (!$this->reunions->contains($reunion)) {
+            $this->reunions[] = $reunion;
+            $reunion->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeReunion(Reunion $reunion): self
+    {
+        if ($this->reunions->contains($reunion)) {
+            $this->reunions->removeElement($reunion);
+            // set the owning side to null (unless already changed)
+            if ($reunion->getUser() === $this) {
+                $reunion->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getActive()
+    {
+        return $this->active;
+    }
+
+    /**
+     * @param mixed $active
+     */
+    public function setActive($active): void
+    {
+        $this->active = $active;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getIsHote()
+    {
+        return $this->isHote;
+    }
+
+    /**
+     * @param mixed $isHote
+     */
+    public function setIsHote($isHote): void
+    {
+        $this->isHote = $isHote;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getClients()
+    {
+        return $this->clients;
+    }
+
+    /**
+     * @param mixed $clients
+     */
+    public function setClients($clients): void
+    {
+        $this->clients = $clients;
     }
 }
