@@ -62,11 +62,6 @@ class User implements AdvancedUserInterface
     private $active;
 
     /**
-     * @ORM\Column(name="is_hote", type="boolean")
-     */
-    private $isHote;
-
-    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="user")
      */
     private $reunions;
@@ -320,22 +315,6 @@ class User implements AdvancedUserInterface
     public function setActive($active): void
     {
         $this->active = $active;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getIsHote()
-    {
-        return $this->isHote;
-    }
-
-    /**
-     * @param mixed $isHote
-     */
-    public function setIsHote($isHote): void
-    {
-        $this->isHote = $isHote;
     }
 
     /**

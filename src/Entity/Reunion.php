@@ -40,7 +40,7 @@ class Reunion
     private $hote;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Client", inversedBy="reunions")
+     * @ORM\ManyToMany(targetEntity="App\Entity\Client", inversedBy="reunions_participants")
      * @ORM\JoinColumn(nullable=false)
      */
     private $participants;

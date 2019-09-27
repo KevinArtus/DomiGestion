@@ -97,6 +97,17 @@ class Client
     protected $pointCadeaux;
 
     /**
+     * @ORM\Column(name="is_hote", type="boolean")
+     */
+    private $isHote;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Reunion", mappedBy="participants")
+     * @ORM\JoinColumn(nullable=false)
+     */
+    private $reunions_participants;
+
+    /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="hote")
      */
     private $reunions;
@@ -112,8 +123,9 @@ class Client
      */
     private $commandes;
 
-    public function __construct()
+    public function __construct(User $user)
     {
+        $this->user = $user;
         $this->reunions = new ArrayCollection();
         $this->commandes = new ArrayCollection();
     }
@@ -388,6 +400,22 @@ class Client
     /**
      * @return mixed
      */
+    public function getIsHote()
+    {
+        return $this->isHote;
+    }
+
+    /**
+     * @param mixed $isHote
+     */
+    public function setIsHote($isHote): void
+    {
+        $this->isHote = $isHote;
+    }
+
+    /**
+     * @return mixed
+     */
     public function getUser()
     {
         return $this->user;
@@ -399,5 +427,21 @@ class Client
     public function setUser($user): void
     {
         $this->user = $user;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getReunionsParticipants()
+    {
+        return $this->reunions_participants;
+    }
+
+    /**
+     * @param mixed $reunions_participants
+     */
+    public function setReunionsParticipants($reunions_participants)
+    {
+        $this->reunions_participants = $reunions_participants;
     }
 }
