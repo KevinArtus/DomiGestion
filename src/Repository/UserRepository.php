@@ -4,8 +4,11 @@ namespace App\Repository;
 
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
+use Symfony\Component\Security\Core\Exception\UsernameNotFoundException;
 
 /**
  * @method User|null find($id, $lockMode = null, $lockVersion = null)
@@ -13,20 +16,22 @@ use Symfony\Bridge\Doctrine\Security\User\UserLoaderInterface;
  * @method User[]    findAll()
  * @method User[]    findBy(array $criteria, array $orderBy = null, $limit = null, $offset = null)
  */
-class UserRepository extends ServiceEntityRepository implements UserLoaderInterface
+class UserRepository extends EntityRepository implements UserLoaderInterface
 {
-    public function __construct(RegistryInterface $registry)
-    {
-        parent::__construct($registry, User::class);
-    }
-
     public function loadUserByUsername($login)
     {
-        return $this->createQueryBuilder('u')
+        $qb = $this->createQueryBuilder('u')
             ->where('u.login = :login OR u.email = :email')
             ->setParameter('login', $login)
             ->setParameter('email', $login)
-            ->getQuery()
-            ->getOneOrNullResult();
+            ->getQuery();
+
+        $user = $qb->getOneOrNullResult();
+
+        if (!$user instanceof User) {
+            throw new UsernameNotFoundException("Pas d'utilisateur trouvé avec : $login");
+        }
+
+        return $user;
     }
 }

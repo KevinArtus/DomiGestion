@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\AdvancedUserInterface;
+use Symfony\Component\Security\Core\User\EquatableInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -14,7 +15,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * Class User
  * @package App\Entity
  */
-class User implements AdvancedUserInterface
+class User implements UserInterface, EquatableInterface
 {
     /**
      * @ORM\Id()
@@ -242,11 +243,7 @@ class User implements AdvancedUserInterface
     public function serialize()
     {
         return serialize([
-            $this->id,
-            $this->nom,
-            $this->prenom,
             $this->password,
-            $this->email,
             $this->login,
             $this->active,
             $this->roles
@@ -259,11 +256,7 @@ class User implements AdvancedUserInterface
     public function unserialize($serialized)
     {
         list (
-            $this->id,
-            $this->nom,
-            $this->prenom,
             $this->password,
-            $this->email,
             $this->login,
             $this->active,
             $this->roles
@@ -331,5 +324,18 @@ class User implements AdvancedUserInterface
     public function setClients($clients): void
     {
         $this->clients = $clients;
+    }
+
+    public function isEqualTo(UserInterface $user)
+    {
+        if (!$user instanceof User) {
+            return false;
+        }
+
+        if ($this->getUsername() !== $user->getUsername()) {
+            return false;
+        }
+
+        return true;
     }
 }
