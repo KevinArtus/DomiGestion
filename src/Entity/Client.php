@@ -105,7 +105,7 @@ class Client
      * @ORM\ManyToMany(targetEntity="App\Entity\Reunion", mappedBy="participants")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $reunions_participants;
+    private $reunionsParticipants;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="hote")
@@ -127,6 +127,7 @@ class Client
     {
         $this->user = $user;
         $this->reunions = new ArrayCollection();
+        $this->reunionsParticipants = new ArrayCollection();
         $this->commandes = new ArrayCollection();
     }
 
@@ -430,19 +431,19 @@ class Client
     }
 
     /**
-     * @return mixed
+     * @return Collection|Reunion[]
      */
-    public function getReunionsParticipants()
+    public function getReunionsParticipants(): Collection
     {
-        return $this->reunions_participants;
+        return $this->reunionsParticipants;
     }
 
     /**
      * @param mixed $reunions_participants
      */
-    public function setReunionsParticipants($reunions_participants)
+    public function setReunionsParticipants($reunionsParticipants)
     {
-        $this->reunions_participants = $reunions_participants;
+        $this->reunionsParticipants = $reunionsParticipants;
     }
 
     public function __toString()

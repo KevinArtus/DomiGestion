@@ -8,10 +8,6 @@
     <table class="table">
         <tbody>
             <tr>
-                <th>Id</th>
-                <td>{{ client.id }}</td>
-            </tr>
-            <tr>
                 <th>Prenom</th>
                 <td>{{ client.prenom }}</td>
             </tr>
@@ -49,7 +45,23 @@
             </tr>
             <tr>
                 <th>Anniversaire</th>
-                <td>{{ client.anniversaire ? client.anniversaire|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ client.anniversaire ? client.anniversaire|date('d/m/Y') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Reunions hébergées</th>
+                {% if client.reunions %}
+                    {% for reunion in client.reunions %}
+                        <td>{{ reunion.date ? reunion.date|date('d/m/Y H:i') : '' }}</td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
+            <tr>
+                <th>Reunions participées</th>
+                {% if client.reunionsParticipants %}
+                    {% for reunion in client.reunionsParticipants %}
+                        <td><a href="{{ path('reunion_show', {id: reunion.id}) }}">{{ reunion.date ? reunion.date|date('d/m/Y H:i') : '' }} ({{ reunion.hote }})</a></td>
+                    {% endfor %}
+                {% endif %}
             </tr>
         </tbody>
     </table>
