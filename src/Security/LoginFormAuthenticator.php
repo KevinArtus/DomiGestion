@@ -45,23 +45,41 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         $this->passwordEncoder = $passwordEncoder;
     }
 
+    /**
+     * Etape 1 : Vérifier si le guard doit prendre en compte la demande
+     *
+     * @param Request $request
+     * @return bool
+     */
     public function supports(Request $request)
     {
-        return 'app_login' === $request->attributes->get('_route')
-            && $request->isMethod('POST');
+        if (!$request->request->has('email')) {
+            return false;
+        }
+
+        if (!$request->request->has('password')) {
+            return false;
+        }
+
+        if (!$request->request->has('_csrf_token')) {
+            return false;
+        }
+
+        if ($request->attributes->get('_route') == 'app_login' && $request->isMethod('POST')) {
+            return true;
+        }
+
+        return false;
     }
 
+    /**
+     * Etape 2 : Retourner le tableau avec les authentifications
+     *
+     * @param Request $request
+     * @return array|mixed|void
+     */
     public function getCredentials(Request $request)
     {
-        if (!$request->request->has('email')) {
-            return;
-        }
-        if (!$request->request->has('password')) {
-            return;
-        }
-        if (!$request->request->has('_csrf_token')) {
-            return;
-        }
 
         $credentials = [
             'email' => $request->request->get('email'),
@@ -77,9 +95,15 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         return $credentials;
     }
 
+    /**
+     * Etape 3 : Retourner le tableau avec les authentifications
+     *
+     * @param mixed $credentials
+     * @param UserProviderInterface $userProvider
+     * @return object|UserInterface|null
+     */
     public function getUser($credentials, UserProviderInterface $userProvider)
     {
-
 //        $token = new CsrfToken('app_login', $credentials['csrf_token']);
 //        if (!$this->csrfTokenManager->isTokenValid($token)) {
 //            throw new InvalidCsrfTokenException();
@@ -92,9 +116,20 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             throw new CustomUserMessageAuthenticationException('Email could not be found.');
         }
 
+        if (!$user->isEnabled()) {
+            throw new AuthenticationException();
+        }
+
         return $user;
     }
 
+    /**
+     * Etape 4 : Vérifier si le login et le mot de passe correspondent
+     *
+     * @param mixed $credentials
+     * @param UserInterface $user
+     * @return bool
+     */
     public function checkCredentials($credentials, UserInterface $user)
     {
         return $this->passwordEncoder->isPasswordValid($user, $credentials['password']);
