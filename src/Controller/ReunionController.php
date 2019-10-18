@@ -20,8 +20,10 @@ class ReunionController extends AbstractController
      */
     public function index(ReunionRepository $reunionRepository): Response
     {
+        $reunionListe = $reunionRepository->findBy(['user' => $this->getUser()]);
+
         return $this->render('reunion/index.html.twig', [
-            'reunions' => $reunionRepository->findAll(),
+            'reunions' => $reunionListe,
         ]);
     }
 
