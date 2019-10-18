@@ -65,7 +65,7 @@ class ClientController extends AbstractController
      */
     public function edit(Request $request, Client $client): Response
     {
-        $form = $this->createForm(Clie<ntType::class, $client);
+        $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
