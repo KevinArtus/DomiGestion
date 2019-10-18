@@ -20,8 +20,10 @@ class ClientController extends AbstractController
      */
     public function index(ClientRepository $clientRepository): Response
     {
+       $clientList = $clientRepository->findBy(['user' => $this->getUser()]);
+
         return $this->render('client/index.html.twig', [
-            'clients' => $clientRepository->findAll(),
+            'clients' => $clientList,
         ]);
     }
 
@@ -63,7 +65,7 @@ class ClientController extends AbstractController
      */
     public function edit(Request $request, Client $client): Response
     {
-        $form = $this->createForm(ClientType::class, $client);
+        $form = $this->createForm(Clie<ntType::class, $client);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
