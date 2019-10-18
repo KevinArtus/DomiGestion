@@ -62,6 +62,20 @@ class Client
     public $longitude;
 
     /**
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $nbKm;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $tempsRoute;
+
+    /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fixe;
@@ -100,6 +114,14 @@ class Client
      * @ORM\Column(name="is_hote", type="boolean")
      */
     private $isHote;
+
+    /**
+     * Hôtesse chez qui le client a été rencontré pour la première fois
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\Client")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $hote;
 
     /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Reunion", mappedBy="participants")
@@ -351,6 +373,38 @@ class Client
     }
 
     /**
+     * @return float
+     */
+    public function getNbKm(): float
+    {
+        return $this->nbKm;
+    }
+
+    /**
+     * @param float $nbKm
+     */
+    public function setNbKm(float $nbKm): void
+    {
+        $this->nbKm = $nbKm;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTempsRoute(): float
+    {
+        return $this->tempsRoute;
+    }
+
+    /**
+     * @param float $tempsRoute
+     */
+    public function setTempsRoute(float $tempsRoute): void
+    {
+        $this->tempsRoute = $tempsRoute;
+    }
+
+    /**
      * @return mixed
      */
     public function getCommentaire()
@@ -412,6 +466,22 @@ class Client
     public function setIsHote($isHote): void
     {
         $this->isHote = $isHote;
+    }
+
+    /**
+     * @return Client
+     */
+    public function getHote(): Client
+    {
+        return $this->hote;
+    }
+
+    /**
+     * @param Client $hote
+     */
+    public function setHote(Client $hote): void
+    {
+        $this->hote = $hote;
     }
 
     /**

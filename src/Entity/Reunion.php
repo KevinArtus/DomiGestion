@@ -34,6 +34,26 @@ class Reunion
     private $montantTTC;
 
     /**
+     * @ORM\Column(type="string", length=50, nullable=true)
+     */
+    private $cycle;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $kmEffectue;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $fraisDeplacement;
+
+    /**
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $benefice;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reunions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -102,6 +122,70 @@ class Reunion
         $this->montantTTC = $montantTTC;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCycle()
+    {
+        return $this->cycle;
+    }
+
+    /**
+     * @param mixed $cycle
+     */
+    public function setCycle($cycle): void
+    {
+        $this->cycle = $cycle;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getKmEffectue()
+    {
+        return $this->kmEffectue;
+    }
+
+    /**
+     * @param mixed $kmEffectue
+     */
+    public function setKmEffectue($kmEffectue): void
+    {
+        $this->kmEffectue = $kmEffectue;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getFraisDeplacement()
+    {
+        return $this->fraisDeplacement;
+    }
+
+    /**
+     * @param mixed $fraisDeplacement
+     */
+    public function setFraisDeplacement($fraisDeplacement): void
+    {
+        $this->fraisDeplacement = $fraisDeplacement;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getBenefice()
+    {
+        return $this->benefice;
+    }
+
+    /**
+     * @param mixed $benefice
+     */
+    public function setBenefice($benefice): void
+    {
+        $this->benefice = $benefice;
     }
 
     public function getHote(): ?Client
