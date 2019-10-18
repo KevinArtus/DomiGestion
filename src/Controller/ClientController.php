@@ -30,7 +30,7 @@ class ClientController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $client = new Client();
+        $client = new Client($this->getUser());
         $form = $this->createForm(ClientType::class, $client);
         $form->handleRequest($request);
 

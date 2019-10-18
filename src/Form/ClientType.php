@@ -24,6 +24,7 @@ class ClientType extends AbstractType
             ->add('portable')
             ->add('email')
             ->add('anniversaire')
+            ->add('isHote')
         ;
     }
 
