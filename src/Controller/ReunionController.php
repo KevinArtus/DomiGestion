@@ -30,7 +30,7 @@ class ReunionController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $reunion = new Reunion();
+        $reunion = new Reunion($this->getUser());
         $form = $this->createForm(ReunionType::class, $reunion);
         $form->handleRequest($request);
 

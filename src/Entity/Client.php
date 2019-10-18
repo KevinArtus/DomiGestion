@@ -444,4 +444,9 @@ class Client
     {
         $this->reunions_participants = $reunions_participants;
     }
+
+    public function __toString()
+    {
+        return $this->getPrenom() . ' ' . $this->getNom();
+    }
 }

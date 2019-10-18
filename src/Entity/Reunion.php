@@ -56,9 +56,11 @@ class Reunion
      */
     private $commandes;
 
-    public function __construct()
+    public function __construct(User $user)
     {
+        $this->user = $user;
         $this->commandes = new ArrayCollection();
+        $this->participants = new ArrayCollection();
     }
 
     public function getId(): ?int

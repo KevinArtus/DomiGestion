@@ -74,6 +74,7 @@ class User implements UserInterface, EquatableInterface
 
     public function __construct()
     {
+        $this->clients = new ArrayCollection();
         $this->reunions = new ArrayCollection();
     }
 
