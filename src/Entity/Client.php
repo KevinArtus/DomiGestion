@@ -29,7 +29,7 @@ class Client
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=5, nullable=true)
      */
     private $sexe;
 
@@ -39,7 +39,7 @@ class Client
     private $adresse;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $codePostale;
 
@@ -91,7 +91,7 @@ class Client
     private $email;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $anniversaire;
 
@@ -114,6 +114,13 @@ class Client
      * @ORM\Column(name="is_hote", type="boolean")
      */
     private $isHote;
+
+    /**
+     * Le client a-t-il été importé depuis un fichier excel.
+     *
+     * @ORM\Column(name="importer", type="boolean")
+     */
+    private $importer;
 
     /**
      * Hôtesse chez qui le client a été rencontré pour la première fois
@@ -187,7 +194,7 @@ class Client
         return $this->sexe;
     }
 
-    public function setSexe(string $sexe): self
+    public function setSexe(string $sexe = null): self
     {
         $this->sexe = $sexe;
 
@@ -223,7 +230,7 @@ class Client
         return $this->ville;
     }
 
-    public function setVille(string $ville): self
+    public function setVille(string $ville = null): self
     {
         $this->ville = $ville;
 
@@ -235,7 +242,7 @@ class Client
         return $this->fixe;
     }
 
-    public function setFixe(string $fixe): self
+    public function setFixe(string $fixe = null): self
     {
         $this->fixe = $fixe;
 
@@ -247,7 +254,7 @@ class Client
         return $this->portable;
     }
 
-    public function setPortable(string $portable): self
+    public function setPortable(string $portable = null): self
     {
         $this->portable = $portable;
 
@@ -482,6 +489,22 @@ class Client
     public function setHote(Client $hote): void
     {
         $this->hote = $hote;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImporter()
+    {
+        return $this->importer;
+    }
+
+    /**
+     * @param mixed $importer
+     */
+    public function setImporter($importer): void
+    {
+        $this->importer = $importer;
     }
 
     /**
