@@ -32,6 +32,11 @@ class Commande
     private $montantTTC;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $commentaire;
+
+    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="commandes")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -41,6 +46,8 @@ class Commande
      * @ORM\ManyToOne(targetEntity="App\Entity\Reunion", inversedBy="commandes")
      */
     private $reunions;
+
+
 
     public function getId(): ?int
     {
@@ -81,6 +88,22 @@ class Commande
         $this->montantTTC = $montantTTC;
 
         return $this;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCommentaire()
+    {
+        return $this->commentaire;
+    }
+
+    /**
+     * @param mixed $commentaire
+     */
+    public function setCommentaire($commentaire): void
+    {
+        $this->commentaire = $commentaire;
     }
 
     public function getClient(): ?Client
