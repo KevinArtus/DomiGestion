@@ -17,6 +17,7 @@ class CommandeType extends AbstractType
             ->add('montantTTC')
             ->add('client')
             ->add('reunions')
+            ->add('commentaire')
         ;
     }
 

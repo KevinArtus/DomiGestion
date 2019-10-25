@@ -258,4 +258,9 @@ class Reunion
     {
         $this->participants = $participants;
     }
+
+    public function __toString()
+    {
+        return $this->getDate()->format("d-m-Y H:i") . ' - ' . $this->getHote()->__toString();
+    }
 }
