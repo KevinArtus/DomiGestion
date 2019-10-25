@@ -278,11 +278,9 @@ class Client
         return $this->anniversaire;
     }
 
-    public function setAnniversaire(\DateTimeInterface $anniversaire): self
+    public function setAnniversaire(\DateTimeInterface $anniversaire = null)
     {
         $this->anniversaire = $anniversaire;
-
-        return $this;
     }
 
     /**
