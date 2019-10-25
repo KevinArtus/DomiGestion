@@ -541,4 +541,9 @@ class Client
     {
         return $this->getPrenom() . ' ' . $this->getNom();
     }
+
+    public function formatedAddress()
+    {
+        return $this->getAdresse() . ' ' . $this->getCodePostale() . ' ' . $this->getVille();
+    }
 }

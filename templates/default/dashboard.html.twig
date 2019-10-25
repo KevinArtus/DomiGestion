@@ -1,0 +1,6 @@
+<h2>Reunions a venir</h2>
+{% for reunion in reunions %}
+    <p>{{ reunion.date ? reunion.date|date('Y-m-d H:i:s') : '' }}</p>
+    <p>{{ reunion.hote ? reunion.hote : '' }}</p>
+    <p>{{ reunion.hote.formatedAddress }}</p>
+{% endfor %}
