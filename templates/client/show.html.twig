@@ -63,6 +63,14 @@
                     {% endfor %}
                 {% endif %}
             </tr>
+            <tr>
+                <th>Commandes passées</th>
+                {% if client.commandes %}
+                    {% for commande in client.commandes %}
+                        <td><a href="{{ path('commande_show', {id: commande.id}) }}">{{ commande.date|date('d/m/Y') }} - {{ commande.prixHT }}€ ({{ commande.montantTTC }}€ TTC)</a></td>
+                    {% endfor %}
+                {% endif %}
+            </tr>
         </tbody>
     </table>
 
