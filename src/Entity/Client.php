@@ -97,7 +97,7 @@ class Client
     protected $pointCadeaux;
 
     /**
-     * @ORM\Column(name="is_hote", type="boolean")
+     * @ORM\Column(name="is_hote", type="boolean", options={"default":0})
      */
     private $isHote;
 
@@ -123,9 +123,9 @@ class Client
      */
     private $commandes;
 
-    public function __construct(User $user)
+    public function __construct()
     {
-        $this->user = $user;
+//        $this->user = $user;
         $this->reunions = new ArrayCollection();
         $this->commandes = new ArrayCollection();
     }
