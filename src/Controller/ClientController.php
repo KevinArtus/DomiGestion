@@ -20,7 +20,7 @@ class ClientController extends AbstractController
      */
     public function index(ClientRepository $clientRepository): Response
     {
-       $clientList = $clientRepository->findBy(['user' => $this->getUser()]);
+        $clientList = $clientRepository->findBy(['user' => $this->getUser()]);
 
         return $this->render('client/index.html.twig', [
             'clients' => $clientList,

@@ -9,7 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class DefaultController extends AbstractController
 {
     /**
-     * Page d'acceuil avec la liste des réunions à venir
+     * Page d'acceuil avec la liste des réunions à venir.
      *
      * @Route("/", name="dashboard_index", methods={"GET"})
      */
@@ -24,7 +24,7 @@ class DefaultController extends AbstractController
             ->getResult();
 
         return $this->render('default/dashboard.html.twig', [
-            'reunions' => $reunions
+            'reunions' => $reunions,
         ]);
     }
 }

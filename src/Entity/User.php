@@ -12,7 +12,6 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  *
  * Class User
- * @package App\Entity
  */
 class User implements UserInterface, EquatableInterface
 {
@@ -34,7 +33,6 @@ class User implements UserInterface, EquatableInterface
      * @ORM\Column(name="prenom", type="string", length=45, nullable=true)
      */
     private $prenom;
-
 
     /**
      * @ORM\Column(name="email", type="string", length=180, unique=true)
@@ -239,16 +237,9 @@ class User implements UserInterface, EquatableInterface
         return $this->active;
     }
 
-    /**
-     * Set isEnabled.
-     *
-     * @param $active
-     *
-     * @return User
-     */
-    public function setIsEnabled($active)
+    public function setIsEnabled(bool $active)
     {
-        $this->active = (bool)$active;
+        $this->active = $active;
 
         return $this;
     }
@@ -262,16 +253,13 @@ class User implements UserInterface, EquatableInterface
             $this->password,
             $this->login,
             $this->active,
-            $this->roles
+            $this->roles,
         ]);
     }
 
-    /**
-     * @param $serialized
-     */
     public function unserialize($serialized)
     {
-        list (
+        list(
             $this->password,
             $this->login,
             $this->active,

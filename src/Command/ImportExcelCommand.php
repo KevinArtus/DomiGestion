@@ -11,12 +11,10 @@ use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class ImportExcelCommand
- * @package App\Command
+ * Class ImportExcelCommand.
  */
 class ImportExcelCommand extends Command
 {
-
     private $entityManager;
 
     public function __construct(EntityManagerInterface $em)
@@ -52,36 +50,30 @@ class ImportExcelCommand extends Command
 
             if (is_null($data['A'])) {
                 $client->setNom('INDETERMINE');
-
             } else {
                 $client->setNom($data['A']);
             }
 
             if (is_null($data['B'])) {
                 $client->setPrenom('INDETERMINE');
-
             } else {
                 $client->setPrenom($data['B']);
             }
 
             if (is_null($data['C'])) {
                 $client->setAdresse('INDETERMINE');
-
             } else {
                 $client->setAdresse($data['C']);
             }
 
             if (is_null($data['D'])) {
                 $client->setCodePostale(00000);
-
             } else {
-                $client->setCodePostale((int)$data['D']);
+                $client->setCodePostale((int) $data['D']);
             }
-
 
             if (is_null($data['E'])) {
                 $client->setVille('INDETERMINE');
-
             } else {
                 $client->setVille($data['E']);
             }
@@ -95,5 +87,7 @@ class ImportExcelCommand extends Command
         }
 
         $this->entityManager->flush();
+
+        return 0;
     }
 }

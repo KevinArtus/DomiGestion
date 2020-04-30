@@ -7,7 +7,6 @@ use App\Entity\Reunion;
 use Doctrine\ORM\EntityRepository;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -30,13 +29,13 @@ class ReunionType extends AbstractType
                         ->orderBy('c.nom', 'ASC');
                 },
                 'required' => true,
-                'multiple' => false
+                'multiple' => false,
             ])
             ->add('participants', EntityType::class, [
                 'class' => Client::class,
-                'choices' =>$user->getClients(),
+                'choices' => $user->getClients(),
                 'required' => false,
-                'multiple' => true
+                'multiple' => true,
             ])
         ;
     }

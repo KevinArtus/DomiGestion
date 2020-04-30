@@ -261,6 +261,6 @@ class Reunion
 
     public function __toString()
     {
-        return $this->getDate()->format("d-m-Y H:i") . ' - ' . $this->getHote()->__toString();
+        return $this->getDate()->format('d-m-Y H:i').' - '.$this->getHote()->__toString();
     }
 }

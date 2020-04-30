@@ -123,7 +123,7 @@ class Client
     private $importer;
 
     /**
-     * Hôtesse chez qui le client a été rencontré pour la première fois
+     * Hôtesse chez qui le client a été rencontré pour la première fois.
      *
      * @ORM\OneToOne(targetEntity="App\Entity\Client")
      * @ORM\JoinColumn(nullable=true)
@@ -152,9 +152,9 @@ class Client
      */
     private $commandes;
 
-    public function __construct()
+    public function __construct(User $user)
     {
-//        $this->user = $user;
+        $this->user = $user;
         $this->reunions = new ArrayCollection();
         $this->reunionsParticipants = new ArrayCollection();
         $this->commandes = new ArrayCollection();
@@ -353,9 +353,6 @@ class Client
         return $this->latitude;
     }
 
-    /**
-     * @param float $latitude
-     */
     public function setLatitude(float $latitude): void
     {
         $this->latitude = $latitude;
@@ -369,9 +366,6 @@ class Client
         return $this->longitude;
     }
 
-    /**
-     * @param float $longitude
-     */
     public function setLongitude(float $longitude): void
     {
         $this->longitude = $longitude;
@@ -385,9 +379,6 @@ class Client
         return $this->nbKm;
     }
 
-    /**
-     * @param float $nbKm
-     */
     public function setNbKm(float $nbKm): void
     {
         $this->nbKm = $nbKm;
@@ -401,9 +392,6 @@ class Client
         return $this->tempsRoute;
     }
 
-    /**
-     * @param float $tempsRoute
-     */
     public function setTempsRoute(float $tempsRoute): void
     {
         $this->tempsRoute = $tempsRoute;
@@ -481,9 +469,6 @@ class Client
         return $this->hote;
     }
 
-    /**
-     * @param Client $hote
-     */
     public function setHote(Client $hote): void
     {
         $this->hote = $hote;
@@ -529,9 +514,6 @@ class Client
         return $this->reunionsParticipants;
     }
 
-    /**
-     * @param mixed $reunions_participants
-     */
     public function setReunionsParticipants($reunionsParticipants)
     {
         $this->reunionsParticipants = $reunionsParticipants;
@@ -539,11 +521,11 @@ class Client
 
     public function __toString()
     {
-        return $this->getPrenom() . ' ' . $this->getNom();
+        return $this->getPrenom().' '.$this->getNom();
     }
 
     public function formatedAddress()
     {
-        return $this->getAdresse() . ' ' . $this->getCodePostale() . ' ' . $this->getVille();
+        return $this->getAdresse().' '.$this->getCodePostale().' '.$this->getVille();
     }
 }

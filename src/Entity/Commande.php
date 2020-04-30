@@ -47,8 +47,6 @@ class Commande
      */
     private $reunions;
 
-
-
     public function getId(): ?int
     {
         return $this->id;

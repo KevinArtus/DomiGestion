@@ -3,15 +3,14 @@
 namespace App\Security;
 
 use App\Entity\User;
-use CoreBundle\Exception\AuthenticationInvalidCSRFToken;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -22,11 +21,9 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 use Symfony\Component\Security\Http\Util\TargetPathTrait;
 
 /**
- * Class LoginFormAuthenticator
+ * Class LoginFormAuthenticator.
  *
  * Classe pour authentification à l'application via le formulaire de login
- *
- * @package App\Security
  */
 class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
 {
@@ -46,9 +43,8 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * Etape 1 : Vérifier si le guard doit prendre en compte la demande
+     * Etape 1 : Vérifier si le guard doit prendre en compte la demande.
      *
-     * @param Request $request
      * @return bool
      */
     public function supports(Request $request)
@@ -65,7 +61,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
             return false;
         }
 
-        if ($request->attributes->get('_route') == 'app_login' && $request->isMethod('POST')) {
+        if ('app_login' == $request->attributes->get('_route') && $request->isMethod('POST')) {
             return true;
         }
 
@@ -73,14 +69,12 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * Etape 2 : Retourner le tableau avec les authentifications
+     * Etape 2 : Retourner le tableau avec les authentifications.
      *
-     * @param Request $request
      * @return array|mixed|void
      */
     public function getCredentials(Request $request)
     {
-
         $credentials = [
             'email' => $request->request->get('email'),
             'password' => $request->request->get('password'),
@@ -96,10 +90,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * Etape 3 : Retourner le tableau avec les authentifications
+     * Etape 3 : Retourner le tableau avec les authentifications.
      *
      * @param mixed $credentials
-     * @param UserProviderInterface $userProvider
+     *
      * @return object|UserInterface|null
      */
     public function getUser($credentials, UserProviderInterface $userProvider)
@@ -124,10 +118,10 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
     }
 
     /**
-     * Etape 4 : Vérifier si le login et le mot de passe correspondent
+     * Etape 4 : Vérifier si le login et le mot de passe correspondent.
      *
      * @param mixed $credentials
-     * @param UserInterface $user
+     *
      * @return bool
      */
     public function checkCredentials($credentials, UserInterface $user)
@@ -142,6 +136,7 @@ class LoginFormAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $url = $this->urlGenerator->generate('client_index');
+
         return new RedirectResponse($url);
     }
 

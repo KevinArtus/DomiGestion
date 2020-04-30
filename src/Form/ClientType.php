@@ -3,9 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Client;
-use Sonata\Form\Type\DatePickerType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
