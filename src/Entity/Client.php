@@ -141,17 +141,6 @@ class Client
     private $hote;
 
     /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Reunion", mappedBy="participants")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $reunionsParticipants;
-
-    /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="hote")
-     */
-    private $reunions;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="clients")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -162,13 +151,23 @@ class Client
      */
     private $commandes;
 
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="client")
+     */
+    private $reunions;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Reunion", mappedBy="participants")
+     */
+    private $participerReunion;
+
     public function __construct(User $user)
     {
         $this->user = $user;
-        $this->reunions = new ArrayCollection();
-        $this->reunionsParticipants = new ArrayCollection();
         $this->commandes = new ArrayCollection();
         $this->importer = false;
+        $this->reunions = new ArrayCollection();
+        $this->participerReunion = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -294,7 +293,7 @@ class Client
     {
         if (!$this->reunions->contains($reunion)) {
             $this->reunions[] = $reunion;
-            $reunion->setHote($this);
+            $reunion->setClient($this);
         }
 
         return $this;
@@ -305,8 +304,8 @@ class Client
         if ($this->reunions->contains($reunion)) {
             $this->reunions->removeElement($reunion);
             // set the owning side to null (unless already changed)
-            if ($reunion->getHote() === $this) {
-                $reunion->setHote(null);
+            if ($reunion->getClient() === $this) {
+                $reunion->setClient(null);
             }
         }
 
@@ -490,19 +489,6 @@ class Client
         $this->user = $user;
     }
 
-    /**
-     * @return Collection|Reunion[]
-     */
-    public function getReunionsParticipants(): Collection
-    {
-        return $this->reunionsParticipants;
-    }
-
-    public function setReunionsParticipants($reunionsParticipants)
-    {
-        $this->reunionsParticipants = $reunionsParticipants;
-    }
-
     public function __toString()
     {
         return $this->getPrenom().' '.$this->getNom();
@@ -521,6 +507,34 @@ class Client
     public function setCivilite(?string $civilite): self
     {
         $this->civilite = $civilite;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Reunion[]
+     */
+    public function getParticiperReunion(): Collection
+    {
+        return $this->participerReunion;
+    }
+
+    public function addParticiperReunion(Reunion $participerReunion): self
+    {
+        if (!$this->participerReunion->contains($participerReunion)) {
+            $this->participerReunion[] = $participerReunion;
+            $participerReunion->addParticipant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeParticiperReunion(Reunion $participerReunion): self
+    {
+        if ($this->participerReunion->contains($participerReunion)) {
+            $this->participerReunion->removeElement($participerReunion);
+            $participerReunion->removeParticipant($this);
+        }
 
         return $this;
     }

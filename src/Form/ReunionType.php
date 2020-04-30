@@ -21,7 +21,7 @@ class ReunionType extends AbstractType
             ->add('date')
             ->add('montantHt')
             ->add('montantTTC')
-            ->add('hote', EntityType::class, [
+            ->add('client', EntityType::class, [
                 'class' => Client::class,
                 'query_builder' => function (EntityRepository $er) {
                     return $er->createQueryBuilder('c')

@@ -54,18 +54,6 @@ class Reunion
     private $benefice;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reunions")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $hote;
-
-    /**
-     * @ORM\ManyToMany(targetEntity="App\Entity\Client", inversedBy="reunions_participants")
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $participants;
-
-    /**
      * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="reunions")
      * @ORM\JoinColumn(nullable=false)
      */
@@ -75,6 +63,16 @@ class Reunion
      * @ORM\OneToMany(targetEntity="App\Entity\Commande", mappedBy="reunions")
      */
     private $commandes;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Client", inversedBy="reunions")
+     */
+    private $client;
+
+    /**
+     * @ORM\ManyToMany(targetEntity="App\Entity\Client", inversedBy="participerReunion")
+     */
+    private $participants;
 
     public function __construct(User $user)
     {
@@ -188,14 +186,14 @@ class Reunion
         $this->benefice = $benefice;
     }
 
-    public function getHote(): ?Client
+    public function getClient(): ?Client
     {
-        return $this->hote;
+        return $this->client;
     }
 
-    public function setHote(?Client $hote): self
+    public function setClient(?Client $client): self
     {
-        $this->hote = $hote;
+        $this->client = $client;
 
         return $this;
     }
@@ -243,24 +241,34 @@ class Reunion
         return $this;
     }
 
+    public function __toString()
+    {
+        return $this->getDate()->format('d-m-Y H:i').' - '.$this->getClient()->__toString();
+    }
+
     /**
-     * @return mixed
+     * @return Collection|Client[]
      */
-    public function getParticipants()
+    public function getParticipants(): Collection
     {
         return $this->participants;
     }
 
-    /**
-     * @param mixed $participants
-     */
-    public function setParticipants($participants): void
+    public function addParticipant(Client $participant): self
     {
-        $this->participants = $participants;
+        if (!$this->participants->contains($participant)) {
+            $this->participants[] = $participant;
+        }
+
+        return $this;
     }
 
-    public function __toString()
+    public function removeParticipant(Client $participant): self
     {
-        return $this->getDate()->format('d-m-Y H:i').' - '.$this->getHote()->__toString();
+        if ($this->participants->contains($participant)) {
+            $this->participants->removeElement($participant);
+        }
+
+        return $this;
     }
 }
