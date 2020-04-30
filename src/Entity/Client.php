@@ -29,7 +29,7 @@ class Client
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=5)
+     * @ORM\Column(type="string", length=5, nullable=true)
      */
     private $sexe;
 
@@ -39,7 +39,7 @@ class Client
     private $adresse;
 
     /**
-     * @ORM\Column(type="integer")
+     * @ORM\Column(type="integer", nullable=true)
      */
     private $codePostale;
 
@@ -62,22 +62,36 @@ class Client
     public $longitude;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @var float
+     *
+     * @ORM\Column(type="float", nullable=true)
+     */
+    private $nbKm;
+
+    /**
+     * @var float
+     *
+     * @ORM\Column(type="time", nullable=true)
+     */
+    private $tempsRoute;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $fixe;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $portable;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\Column(type="datetime", nullable=true)
      */
     private $anniversaire;
 
@@ -102,10 +116,25 @@ class Client
     private $isHote;
 
     /**
+     * Le client a-t-il été importé depuis un fichier excel.
+     *
+     * @ORM\Column(name="importer", type="boolean")
+     */
+    private $importer;
+
+    /**
+     * Hôtesse chez qui le client a été rencontré pour la première fois
+     *
+     * @ORM\OneToOne(targetEntity="App\Entity\Client")
+     * @ORM\JoinColumn(nullable=true)
+     */
+    private $hote;
+
+    /**
      * @ORM\ManyToMany(targetEntity="App\Entity\Reunion", mappedBy="participants")
      * @ORM\JoinColumn(nullable=false)
      */
-    private $reunions_participants;
+    private $reunionsParticipants;
 
     /**
      * @ORM\OneToMany(targetEntity="App\Entity\Reunion", mappedBy="hote")
@@ -127,6 +156,7 @@ class Client
     {
 //        $this->user = $user;
         $this->reunions = new ArrayCollection();
+        $this->reunionsParticipants = new ArrayCollection();
         $this->commandes = new ArrayCollection();
     }
 
@@ -164,7 +194,7 @@ class Client
         return $this->sexe;
     }
 
-    public function setSexe(string $sexe): self
+    public function setSexe(string $sexe = null): self
     {
         $this->sexe = $sexe;
 
@@ -200,7 +230,7 @@ class Client
         return $this->ville;
     }
 
-    public function setVille(string $ville): self
+    public function setVille(string $ville = null): self
     {
         $this->ville = $ville;
 
@@ -212,7 +242,7 @@ class Client
         return $this->fixe;
     }
 
-    public function setFixe(string $fixe): self
+    public function setFixe(string $fixe = null): self
     {
         $this->fixe = $fixe;
 
@@ -224,7 +254,7 @@ class Client
         return $this->portable;
     }
 
-    public function setPortable(string $portable): self
+    public function setPortable(string $portable = null): self
     {
         $this->portable = $portable;
 
@@ -248,11 +278,9 @@ class Client
         return $this->anniversaire;
     }
 
-    public function setAnniversaire(\DateTimeInterface $anniversaire): self
+    public function setAnniversaire(\DateTimeInterface $anniversaire = null)
     {
         $this->anniversaire = $anniversaire;
-
-        return $this;
     }
 
     /**
@@ -350,6 +378,38 @@ class Client
     }
 
     /**
+     * @return float
+     */
+    public function getNbKm(): float
+    {
+        return $this->nbKm;
+    }
+
+    /**
+     * @param float $nbKm
+     */
+    public function setNbKm(float $nbKm): void
+    {
+        $this->nbKm = $nbKm;
+    }
+
+    /**
+     * @return float
+     */
+    public function getTempsRoute(): float
+    {
+        return $this->tempsRoute;
+    }
+
+    /**
+     * @param float $tempsRoute
+     */
+    public function setTempsRoute(float $tempsRoute): void
+    {
+        $this->tempsRoute = $tempsRoute;
+    }
+
+    /**
      * @return mixed
      */
     public function getCommentaire()
@@ -414,6 +474,38 @@ class Client
     }
 
     /**
+     * @return Client
+     */
+    public function getHote(): Client
+    {
+        return $this->hote;
+    }
+
+    /**
+     * @param Client $hote
+     */
+    public function setHote(Client $hote): void
+    {
+        $this->hote = $hote;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getImporter()
+    {
+        return $this->importer;
+    }
+
+    /**
+     * @param mixed $importer
+     */
+    public function setImporter($importer): void
+    {
+        $this->importer = $importer;
+    }
+
+    /**
      * @return mixed
      */
     public function getUser()
@@ -430,18 +522,28 @@ class Client
     }
 
     /**
-     * @return mixed
+     * @return Collection|Reunion[]
      */
-    public function getReunionsParticipants()
+    public function getReunionsParticipants(): Collection
     {
-        return $this->reunions_participants;
+        return $this->reunionsParticipants;
     }
 
     /**
      * @param mixed $reunions_participants
      */
-    public function setReunionsParticipants($reunions_participants)
+    public function setReunionsParticipants($reunionsParticipants)
     {
-        $this->reunions_participants = $reunions_participants;
+        $this->reunionsParticipants = $reunionsParticipants;
+    }
+
+    public function __toString()
+    {
+        return $this->getPrenom() . ' ' . $this->getNom();
+    }
+
+    public function formatedAddress()
+    {
+        return $this->getAdresse() . ' ' . $this->getCodePostale() . ' ' . $this->getVille();
     }
 }

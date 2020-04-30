@@ -20,8 +20,10 @@ class ReunionController extends AbstractController
      */
     public function index(ReunionRepository $reunionRepository): Response
     {
+        $reunionListe = $reunionRepository->findBy(['user' => $this->getUser()]);
+
         return $this->render('reunion/index.html.twig', [
-            'reunions' => $reunionRepository->findAll(),
+            'reunions' => $reunionListe,
         ]);
     }
 
@@ -30,7 +32,7 @@ class ReunionController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $reunion = new Reunion();
+        $reunion = new Reunion($this->getUser());
         $form = $this->createForm(ReunionType::class, $reunion);
         $form->handleRequest($request);
 

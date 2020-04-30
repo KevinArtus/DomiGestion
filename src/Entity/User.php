@@ -36,10 +36,26 @@ class User implements UserInterface, EquatableInterface
      */
     private $prenom;
 
+
     /**
      * @ORM\Column(name="email", type="string", length=180, unique=true)
      */
     private $email;
+
+    /**
+     * @ORM\Column(name="adresse", type="string", length=255)
+     */
+    private $adresse;
+
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $codePostale;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $ville;
 
     /**
      * @ORM\Column(name="login", type="string", length=25, unique=true)
@@ -74,6 +90,7 @@ class User implements UserInterface, EquatableInterface
 
     public function __construct()
     {
+        $this->clients = new ArrayCollection();
         $this->reunions = new ArrayCollection();
     }
 
@@ -337,5 +354,53 @@ class User implements UserInterface, EquatableInterface
         }
 
         return true;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getAdresse()
+    {
+        return $this->adresse;
+    }
+
+    /**
+     * @param mixed $adresse
+     */
+    public function setAdresse($adresse): void
+    {
+        $this->adresse = $adresse;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getCodePostale()
+    {
+        return $this->codePostale;
+    }
+
+    /**
+     * @param mixed $codePostale
+     */
+    public function setCodePostale($codePostale): void
+    {
+        $this->codePostale = $codePostale;
+    }
+
+    /**
+     * @return mixed
+     */
+    public function getVille()
+    {
+        return $this->ville;
+    }
+
+    /**
+     * @param mixed $ville
+     */
+    public function setVille($ville): void
+    {
+        $this->ville = $ville;
     }
 }
