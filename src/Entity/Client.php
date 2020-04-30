@@ -5,18 +5,28 @@ namespace App\Entity;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\ClientRepository")
  */
 class Client
 {
+    const CIV_MONSIEUR = 'M';
+    const CIV_MADAME = 'Mme';
+
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     * @ORM\Column(type="string", length=3, nullable=false)
+     * @Assert\Length(min= 1, max = 3)
+     */
+    private $civilite;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -29,22 +39,18 @@ class Client
     private $nom;
 
     /**
-     * @ORM\Column(type="string", length=5, nullable=true)
-     */
-    private $sexe;
-
-    /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $adresse;
 
     /**
      * @ORM\Column(type="integer", nullable=true)
+     * @Assert\Length(min="2", max="5")
      */
     private $codePostale;
 
     /**
-     * @ORM\Column(type="string", length=255)
+     * @ORM\Column(type="string", length=255, nullable=true)
      */
     private $ville;
 
@@ -77,21 +83,25 @@ class Client
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max=10)
      */
     private $fixe;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
+     * @Assert\Length(max=10)
      */
     private $portable;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
+     * @ORM\Column(type="string", length=200, nullable=true)
+     * @Assert\Email
+     * @Assert\Length(max = 200)
      */
     private $email;
 
     /**
-     * @ORM\Column(type="datetime", nullable=true)
+     * @ORM\Column(type="date", nullable=true)
      */
     private $anniversaire;
 
@@ -158,6 +168,7 @@ class Client
         $this->reunions = new ArrayCollection();
         $this->reunionsParticipants = new ArrayCollection();
         $this->commandes = new ArrayCollection();
+        $this->importer = false;
     }
 
     public function getId(): ?int
@@ -185,18 +196,6 @@ class Client
     public function setNom(string $nom): self
     {
         $this->nom = $nom;
-
-        return $this;
-    }
-
-    public function getSexe(): ?string
-    {
-        return $this->sexe;
-    }
-
-    public function setSexe(string $sexe = null): self
-    {
-        $this->sexe = $sexe;
 
         return $this;
     }
@@ -345,9 +344,6 @@ class Client
         return $this;
     }
 
-    /**
-     * @return float
-     */
     public function getLatitude(): float
     {
         return $this->latitude;
@@ -358,9 +354,6 @@ class Client
         $this->latitude = $latitude;
     }
 
-    /**
-     * @return float
-     */
     public function getLongitude(): float
     {
         return $this->longitude;
@@ -371,9 +364,6 @@ class Client
         $this->longitude = $longitude;
     }
 
-    /**
-     * @return float
-     */
     public function getNbKm(): float
     {
         return $this->nbKm;
@@ -384,9 +374,6 @@ class Client
         $this->nbKm = $nbKm;
     }
 
-    /**
-     * @return float
-     */
     public function getTempsRoute(): float
     {
         return $this->tempsRoute;
@@ -461,9 +448,6 @@ class Client
         $this->isHote = $isHote;
     }
 
-    /**
-     * @return Client
-     */
     public function getHote(): Client
     {
         return $this->hote;
@@ -527,5 +511,17 @@ class Client
     public function formatedAddress()
     {
         return $this->getAdresse().' '.$this->getCodePostale().' '.$this->getVille();
+    }
+
+    public function getCivilite(): ?string
+    {
+        return $this->civilite;
+    }
+
+    public function setCivilite(?string $civilite): self
+    {
+        $this->civilite = $civilite;
+
+        return $this;
     }
 }

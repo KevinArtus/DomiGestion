@@ -9,9 +9,9 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Civilite</th>
                 <th>Prenom</th>
                 <th>Nom</th>
-                <th>Sexe</th>
                 <th>Adresse</th>
                 <th>CodePostale</th>
                 <th>Ville</th>
@@ -26,9 +26,9 @@
         {% for client in clients %}
             <tr>
                 <td>{{ client.id }}</td>
+                <td>{{ client.civilite }}</td>
                 <td>{{ client.prenom }}</td>
                 <td>{{ client.nom }}</td>
-                <td>{{ client.sexe }}</td>
                 <td>{{ client.adresse }}</td>
                 <td>{{ client.codePostale }}</td>
                 <td>{{ client.ville }}</td>

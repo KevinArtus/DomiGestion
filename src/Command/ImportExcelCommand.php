@@ -80,7 +80,6 @@ class ImportExcelCommand extends Command
             $client->setFixe($data['F']);
             $client->setPortable($data['G']);
             $client->setImporter(true);
-            $client->setSexe();
             $client->setIsHote(false);
 
             $this->entityManager->persist($client);
