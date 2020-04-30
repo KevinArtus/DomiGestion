@@ -1,0 +1,53 @@
+version: '3'
+services:
+    phpapache:     
+        build: ./docker/phpapache
+        ports:
+            - 8030:80
+        volumes:
+            - .:/home/app    
+            - /home/$USER:/home/$USER
+            - /etc/passwd:/etc/passwd:ro
+            - /etc/group:/etc/group:ro
+        environment:
+            APACHE_DOCUMENT_ROOT: /home/app/public
+            APACHE_RUN_USER: $USER
+            APACHE_RUN_GROUP: $USER    
+            PHP_MEMORY_LIMIT: 512M
+        tmpfs:
+            - /home/var/cache
+        tty: true
+        working_dir: /home/app
+    nodejs:
+        image: node:12.13.0
+        ports:
+            # if serving asset via webpack dev server
+            - 8032:8032
+        volumes:
+            - .:/home/app    
+            - /home/$USER:/home/$USER
+            - /etc/passwd:/etc/passwd:ro
+            - /etc/group:/etc/group:ro
+        command: ['node']
+        tty: true
+        working_dir: /home/app
+        environment:
+            - CHOKIDAR_USEPOLLING=true
+        # non fonctionnel
+        #entrypoint: "yarn encore dev-server --hot --host 0.0.0.0 --port 8032"
+    mysql:
+        image: mysql/mysql-server:5.7
+        volumes:  
+            - ./var/lib_mysql:/var/lib/mysql
+            - ./var/etc_mysql:/etc/mysql
+        tty: true
+        ports:
+            - 8033:3306
+        env_file:
+            - .env
+    phpmyadmin:
+        image: phpmyadmin/phpmyadmin
+        env_file:
+            - .env
+        ports:
+            - 8031:80
